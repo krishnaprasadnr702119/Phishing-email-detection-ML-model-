@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Email Classification</title>
+    <!-- Include Bootstrap CSS -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Include custom CSS -->
+    <style>
+        /* Terminal-like background */
+        body {
+            background-color: #000000;
+            color: #00FF00;
+            font-family: monospace;
+        }
+
+        /* Centered heading */
+        h1 {
+            text-align: center;
+            color: #00FF00;
+        }
+
+        /* Style the list of results */
+        ul {
+            list-style-type: none;
+            padding-left: 0;
+        }
+
+        li {
+            padding: 5px;
+            background-color: #101010;
+            border: 1px solid #00FF00;
+            margin-bottom: 5px;
+            border-radius: 5px;
+            opacity: 0;
+            transition: opacity 0.5s ease-in-out;
+        }
+
+        /* Show list items */
+        li.show {
+            opacity: 1;
+        }
+
+        /* Phishing emails in red */
+        li.phishing {
+            color: #6aff00;
+            border-color: #FF0000;
+        }
+
+        /* Style the scan button */
+        .btn-scan {
+            background-color: #00FF00;
+            color: #000;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            position: fixed;
+            /* Fixed position at the bottom */
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+        .btn-scan:hover {
+            background-color: #00CC00;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h1>Email Classification</h1>
+
+        <!-- Display email results -->
+        <ul id="emailResults">
+            {% if email_results %}
+            {% for result in email_results %}
+            <li class="{% if result['type'] == 'phishing' %}phishing{% endif %}">{{ result['text'] }}</li>
+            {% endfor %}
+            {% endif %}
+        </ul>
+
+        <!-- Form with scan button at the bottom -->
+        <form method="POST" class="form-scan">
+            <button type="submit" class="btn-scan">Scan Emails</button>
+        </form>
+    </div>
+
+    <!-- Include Bootstrap JavaScript and dependencies -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+    <!-- JavaScript for animation -->
+
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const results = document.querySelectorAll("#emailResults li");
+
+            // Show each result with a delay
+            results.forEach((result, index) => {
+                setTimeout(() => {
+                    result.classList.add("show");
+                }, index * 200); // Delay each list item by 200ms
+            });
+        });
+    </script>
+</body>
+
+</html>
